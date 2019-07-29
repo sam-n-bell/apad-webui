@@ -25,7 +25,7 @@
                 <el-table-column sortable label="Players"></el-table-column>
                 <el-table-column>
                     <template slot-scope="scope">
-                        <el-button
+                        <el-button @click="joinEvent(scope.row.event_id)">Join Event</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -38,7 +38,7 @@
 import CreateEvent from '../components/CreateEvent'
 export default {
   components: {
-    
+    CreateEvent
   },
   data: function () {
     return {
@@ -46,7 +46,9 @@ export default {
     }
   },
   methods: {
+      joinEvent: async function (event_id) {
 
+      }
   },
   mounted: async function () {
 

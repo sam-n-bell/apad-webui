@@ -3,7 +3,8 @@ import router from "../../router";
 
 const state = {
 	user_details: {},
-	logged_in: false
+	logged_in: false,
+	users_list: []
 };
 
 const getters = {};
@@ -28,6 +29,22 @@ const actions = {
 		commit("SET_USER_DETAILS", {});
 		commit("SET_LOGGED_IN", false);
         router.push('/login');
+	},
+	getUsers: async ({ commit }) => {
+		try {
+			// GET USERS
+			// commit('SET_USERS_LIST', users.data)
+			commit('SET_USERS_LIST', [
+				{
+					user_id: 1,
+					name: 'sam bell',
+					email: 'sam.bell@utexas.edu',
+					administrator: 1,
+				}
+			])
+		} catch (err) {
+			this.$notify.error('Coudn\'t get list of users');
+		}
 	}
 };
 
@@ -39,6 +56,9 @@ const mutations = {
 	SET_LOGGED_IN(state, boolean_status) {
 		state.logged_in = boolean_status;
 		console.log(`state logged_in is ${state.logged_in}`);
+	},
+	SET_USERS_LIST(state, users) {
+		state.users_list = users;
 	}
 };
 

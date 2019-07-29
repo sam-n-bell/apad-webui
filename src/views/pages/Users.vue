@@ -38,7 +38,8 @@ export default {
 
   },
   mounted: async function () {
-    this.$router.push('/events')
-  }
+ if (this.$store.state.user.user_details.administrator !== 1) {
+          this.$router.push('/events')
+      }  }
 }
 </script>
