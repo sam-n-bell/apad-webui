@@ -1,0 +1,12 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+handlers:
+  # Serve all static files with urls ending with a file extension
+- url: /(.*\.(js|css|woff|ttf|png|js|map|ico|json))$ 
+  static_files: dist/\1
+  upload: dist/.*\.(js|css|woff|ttf|png|js|map|ico|json)$
+  # catch all handler to index.html
+- url: /.*
+  static_files: dist/index.html
+  upload: dist/index.html

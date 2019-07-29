@@ -13,6 +13,20 @@ export default {
   name: 'home',
   components: {
     HelloWorld
+  },
+  data: function () {
+    return {
+      count: 0
+    }
+  },
+  methods: {
+    getData: async function(){
+      let response = await this.$http.get('https://swapi.co/api/films/');
+      console.log(response);
+    }
+  },
+  mounted: async function () {
+    await this.getData();
   }
 }
 </script>
