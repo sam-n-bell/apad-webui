@@ -2,7 +2,7 @@ import Vue from "vue";
 import router from "../../router";
 
 const state = {
-	user_details: {},
+	current_user: {},
 	logged_in: false,
 	users_list: []
 };
@@ -16,7 +16,7 @@ const actions = {
 			// commit("SET_USER", login_response.data);
 			/**comment out below two once api works */
 			localStorage.setItem('auth_token', "abc123");
-			commit("SET_USER_DETAILS", credentials);
+			commit("SET_CURRENT_USER", credentials);
 
 			commit("SET_LOGGED_IN", true);
 		} catch (err) {
@@ -26,7 +26,7 @@ const actions = {
 	logout: async ({ commit }) => {
 		localStorage.removeItem("auth_token");
 		router.push('/login');
-		commit("SET_USER_DETAILS", {});
+		commit("SET_CURRENT_USER", {});
 		commit("SET_LOGGED_IN", false);
         router.push('/login');
 	},
@@ -49,9 +49,10 @@ const actions = {
 };
 
 const mutations = {
-	SET_USER_DETAILS(state, user) {
-		state.user_details = user;
-		console.log(`state user is` ,state.user_details);
+	SET_CURRENT_USER(state, user) {
+		console.log('setting current user');
+		state.current_user = user;
+		console.log(`state user is` ,state.current_user);
 	},
 	SET_LOGGED_IN(state, boolean_status) {
 		state.logged_in = boolean_status;

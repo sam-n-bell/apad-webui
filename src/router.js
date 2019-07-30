@@ -68,11 +68,9 @@ router.beforeEach((to,from,next) => {
     if (!store.state.user.logged_in && localStorage.getItem('auth_token')) {
         try {
           //GET user data
-          //COMMIT USER_DETAILS
-          store.commit('user/SET_USER_DETAILS', {user_id: 1, name: 'Sam Bell', administrator: 1});
+          //COMMIT SET_CURRENT_USER & LOGGED_IN
+          store.commit('user/SET_CURRENT_USER', {user_id: 1, name: 'Sam Bell', administrator: 1});
           store.commit('user/SET_LOGGED_IN', true)
-          //COMMIT logged_in = true
-          console.log('got here');
           next();
         } catch (err) {
           next('/login')

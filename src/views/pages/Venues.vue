@@ -12,12 +12,12 @@
                 <el-table-column sortable label="Name" prop=name></el-table-column>
                 <el-table-column sortable label="Address" prop=address></el-table-column>
                 <el-table-column sortable label="Activities" prop=activities></el-table-column>
-                <el-table-column sortable label="Opens">
+                <el-table-column sortable label="Opens" prop=open_time>
                     <template slot-scope="scope">
                         {{scope.row.open_time | time}}
                     </template>
                 </el-table-column>
-                <el-table-column sortable label="Closes">
+                <el-table-column sortable label="Closes" prop=close_time>
                     <template slot-scope="scope">
                         {{scope.row.close_time | time}}
                     </template>
@@ -36,14 +36,12 @@ export default {
   },
   data: function () {
     return {
-      venues: [],
-      add_venue_dialog: false,
-      new_venue: {
-          name: '',
-          address: '',
-          activities: '',
-      }
     }
+  },
+  computed: {
+      venues () {
+          return this.$store.state.venues.venues;
+      }
   },
   methods: {
     
@@ -66,7 +64,8 @@ export default {
           open_time: '08:00:00',
           close_time: '20:00:00',
       }
-      this.venues.push(venue1, venue2)
+      this.$store.dispatch('venues/getVenues');
+    //   this.venues.push(venue1, venue2)
   }
 }
 </script>

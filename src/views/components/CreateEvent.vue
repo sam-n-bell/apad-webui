@@ -6,10 +6,11 @@
         :visible.sync="create_event_dialog"
         width="30%"
         :before-close="handleClose">
-        <el-form :model="new_event" :rules="rules" ref="event_form">
+        <el-form :model="new_event" :rules="rules" ref="event_form" label-position="top">
             <el-row>
-                <el-form-item label="Event Creator" v-if="$store.state.user.user_details.administrator == 1">
+                <el-form-item label="Event Creator (if not you)" v-if="$store.state.user.current_user.administrator == 1">
                     <el-select v-model="new_event.created_by">
+                        <el-option key=null, value=null, label=" "></el-option>
                         <el-option v-for="user in users"
                         :key="user.user_id"
                         :value="user.user_id"
@@ -19,11 +20,12 @@
                 </el-form-item>
             </el-row>
             <el-row>
-                <el-form-item label="Name" prop="name">
+                <el-form-item label="Event Name" prop="name">
+                    <el-input v-model="new_event.name"></el-input>
                 </el-form-item>
             </el-row>
             <el-row>
-                <!-- <el-form-item label="Venue" prop="venue">
+                <el-form-item label="Venue" prop="venue">
                     <el-select v-model="new_event.venue_id">
                         <el-option v-for="venue in venues"
                         :key="venue.venue_id"
@@ -31,7 +33,7 @@
                         :label=venue.name
                         ></el-option>
                     </el-select>
-                </el-form-item> -->
+                </el-form-item>
             </el-row>
             <el-row>
                 <el-form-item label="Max # of Players" prop="max_players">
@@ -80,6 +82,9 @@ export default {
   computed: {
       users () {
          return this.$store.state.user.users_list;
+      },
+      venues () {
+         return this.$store.state.venues.venues;
       }
   },
   methods: {

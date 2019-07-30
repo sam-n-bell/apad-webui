@@ -13,7 +13,15 @@ import moment from 'moment';
 
 const axios_instance = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com'
-})
+});
+
+//https://stackoverflow.com/q/52168928 helped understand how to apply Authorization Header before each request
+axios_instance.interceptors.request.use((config) => {
+  config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('auth_token');
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
 Vue.use(VueAxios, axios_instance)
 
