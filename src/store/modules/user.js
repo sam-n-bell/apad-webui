@@ -12,11 +12,10 @@ const getters = {};
 const actions = {
 	login: async ({ commit }, credentials) => {
 		try {
-			// let login_response = await Vue.$http.get();
-			// commit("SET_USER", login_response.data);
-			/**comment out below two once api works */
-			localStorage.setItem('auth_token', "abc123");
-			commit("SET_CURRENT_USER", credentials);
+			// let login_response = await Vue.$http.get(); check pwd/email, return user object and token
+			let user = credentials;
+			localStorage.setItem('auth_token', "abc123"); //set token for http requests
+			commit("SET_CURRENT_USER", user); //set to user object returned from python service
 
 			commit("SET_LOGGED_IN", true);
 		} catch (err) {

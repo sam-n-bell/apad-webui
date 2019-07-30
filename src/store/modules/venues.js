@@ -32,7 +32,7 @@ const actions = {
                 close_time: '20:00:00',
             };
             let venue2 = {
-                venue_id: 1,
+                venue_id: 2,
                 name: 'Walnut Creek Volleyball Courts',
                 address: '186 Parmer ln  Austin TX 78760',
                 activities: 'volleyball',

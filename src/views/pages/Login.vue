@@ -1,23 +1,23 @@
 <template>
 <div>
-    <el-form class="login-form">
+    <el-form class="login-form" :rules="rules" ref="login_form" :model="login_details">
         <el-row>
             <el-col>
-                <el-form-item label="Email">
-                    <el-input v-model="email"></el-input>
+                <el-form-item label="Email" prop="email">
+                    <el-input v-model="login_details.email"></el-input>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col>
-                <el-form-item label="Password">
-                    <el-input v-model="password" show-password></el-input>
+                <el-form-item label="Password" prop="password">
+                    <el-input v-model="login_details.password" show-password></el-input>
                 </el-form-item>
             </el-col>
         </el-row>
         <el-row>
             <el-col>
-                <el-button round type="primary" style="width: 100%;" @click="login()">Login</el-button>
+                <el-button round type="primary" style="width: 100%;" @click="login('login_form')">Login</el-button>
             </el-col>
         </el-row>
     </el-form>
@@ -33,20 +33,33 @@ export default {
   },
   data: function () {
     return {
-      email: "",
-      password: "",
-      movies: []
+        login_details: {
+            email: "",
+            password: ""
+        },
+        rules: {
+          email: [
+              { required: true, trigger: 'blur' }
+          ],
+          password: [
+              { required: true, trigger: 'blur'}
+          ]
+        }
     }
   },
   methods: {
-    login: async function () {
+    login: async function (form_name) {
         try {
-            this.$store.dispatch('user/login', {user_id: 1, name: 'Sam Bell', administrator: 1})
-            // this.$store.commit('user/SET_USER', {user_id: 1, name: 'Sam Bell', administrator: 1});
-            // this.$store.commit('user/SET_LOGGED_IN', true);
-            // localStorage.setItem('auth_token', "abc123");
-            this.$router.push('/events');
-            this.$notify.success('Logged in');
+            this.$refs[form_name].validate((valid) => {
+                if (valid) {
+                    this.$store.dispatch('user/login', this.login)
+                    // this.$store.commit('user/SET_CURRENT_USER', {user_id: 1, name: 'Sam Bell', administrator: 1});
+                    // this.$store.commit('user/SET_LOGGED_IN', true);
+                    // localStorage.setItem('auth_token', "abc123");
+                    this.$router.push('/events');
+                    this.$notify.success('Logged in');
+                } 
+            });
         } catch (err) {
             this.$notify.error("Login failed", err.message);
         }

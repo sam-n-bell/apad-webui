@@ -95,7 +95,6 @@ router.beforeEach((to,from,next) => {
 
     next()
   } else {
-    console.log('outer else')
     next();
   }
 })

@@ -25,7 +25,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="saveVenue('venue_form')">Save</el-button>
-            <el-button @click="add_venue_dialog = false">Cancel</el-button>
+            <el-button @click="close('venue_form')">Cancel</el-button>
         </span>
         </el-dialog>
     </div>
@@ -75,6 +75,10 @@ export default {
     openDialog () {
         this.add_venue_dialog = true;
     },
+    close (form_name) {
+        this.resetForm('venue_form');
+        this.add_venue_dialog = false
+    },
     handleClose(done) {
         this.$confirm('Are you sure to close this dialog?')
           .then(_ => {
@@ -85,7 +89,6 @@ export default {
     },
     resetForm(form_name) {
         this.$refs[form_name].resetFields();
-        this.add_venue_dialog = false;
     }
   },
   mounted: async function () {
