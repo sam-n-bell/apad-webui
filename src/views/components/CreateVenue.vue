@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button style="float: right; padding: 3px 0" type="text" @click="openDialog()">Create Venue</el-button>
+        <el-button v-if="$store.state.user.current_user.administrator == true" style="float: right; padding: 3px 0" type="text" @click="openDialog()">Create Venue</el-button>
         <el-dialog
         title="Add New Venue"
         :visible.sync="add_venue_dialog"

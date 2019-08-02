@@ -1,29 +1,50 @@
 <template>
-<h1>Users</h1>
+    <div>
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <el-row>
+                    <el-col :span="6" style="float: right;">
+                       <create-user></create-user>
+                    </el-col>
+                </el-row>
+            </div>
+            <el-table :data="users" width="100%">
+                <el-table-column sortable label="Name" prop=name></el-table-column>
+                <el-table-column sortable label="Email" prop=email></el-table-column>
+                <el-table-column sortable label="Administrator" prop=administrator>
+                    <template slot-scope="scope">
+                        {{scope.row.administrator | yesno}}
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-card>
+    </div>
 </template>
 
 
 <script>
-
+import CreateUser from '../components/CreateUser';
 export default {
   components: {
-    
+    CreateUser
   },
   data: function () {
     return {
-      count: 0,
-      user_id: null,
-      users: [],
-      posts: []
     }
   },
+  computed: {
+      users () {
+          return this.$store.state.user.users_list;
+      }
+  },
   methods: {
+    
 
   },
   mounted: async function () {
-    // redirects to events page if person logged in is not an admin
-    if (this.$store.state.user.current_user.administrator !== 1) {
-              this.$router.push('/events')
-          }  }
-    }
+     if(this.$store.state.user.users_list.length==0){
+       this.$store.dispatch('user/getUsers');
+     }
+  }
+}
 </script>

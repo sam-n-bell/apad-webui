@@ -34,7 +34,9 @@ Vue.filter("time", function(value) {
     return  moment(value, 'HH:mm:ss').format('h:mm a');
 	}
 });
-
+Vue.filter('yesno', function(value) {
+  return value ? 'Yes' : 'No';
+})
 new Vue({
   router,
   store,
