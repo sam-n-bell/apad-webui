@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     getData: async function(){
-      let response = await this.$http.get('https://swapi.co/api/films/');
+      let response = await this.$http.get('http://127.0.0.1:5000/');
       console.log(response);
     }
   },

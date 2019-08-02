@@ -12,7 +12,7 @@ import './plugins/element.js';
 import moment from 'moment';
 
 const axios_instance = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com'
+  // baseURL: 'https://jsonplaceholder.typicode.com'
 });
 
 //https://stackoverflow.com/q/52168928 helped understand how to apply Authorization Header before each request
