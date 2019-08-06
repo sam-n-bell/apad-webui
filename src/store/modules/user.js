@@ -34,14 +34,17 @@ const actions = {
 		try {
 			// GET USERS
 			// commit('SET_USERS_LIST', users.data)
-			commit('SET_USERS_LIST', [
-				{
-					user_id: 1,
-					name: 'sam bell',
-					email: 'sam.bell@utexas.edu',
-					administrator: 1,
-				}
-			])
+			console.log('getting user data')
+			let request = await Vue.$http.get('/users')
+			// commit('SET_USERS_LIST', [
+			// 	{
+			// 		user_id: 1,
+			// 		name: 'sam bell',
+			// 		email: 'sam.bell@utexas.edu',
+			// 		administrator: 1,
+			// 	}
+			// ])
+			commit('SET_USERS_LIST',request.data)
 		} catch (err) {
 			this.$notify.error('Coudn\'t get list of users');
 		}
