@@ -12,7 +12,7 @@ import './plugins/element.js';
 import moment from 'moment';
 
 const axios_instance = axios.create({
-  // baseURL: 'https://jsonplaceholder.typicode.com'
+   baseURL: 'https://flaskappmysql.appspot.com'
 });
 
 //https://stackoverflow.com/q/52168928 helped understand how to apply Authorization Header before each request
@@ -24,6 +24,8 @@ axios_instance.interceptors.request.use((config) => {
 });
 
 Vue.use(VueAxios, axios_instance)
+Vue.$http = Vue.prototype.$http; //lets us use Vue.$http.___ in any file
+Vue.$notify = Vue.prototype.$notify; //lets us use Vue.$notify in any file
 
 Vue.use(ElementUI, { locale });
 
