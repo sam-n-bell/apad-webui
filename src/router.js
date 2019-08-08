@@ -63,7 +63,7 @@ let router = new Router({
   ]
 })
 
-router.beforeEach((to,from,next) => {
+router.beforeEach(async (to,from,next) => {
   if (to.meta.requiresAuth ){
     console.log("must be logged in")
     // if vuex logged_in is false but token is present
@@ -71,11 +71,13 @@ router.beforeEach((to,from,next) => {
     if (!store.state.user.logged_in && localStorage.getItem('auth_token')) {
         try {
           //GET user data
-          //COMMIT SET_CURRENT_USER & LOGGED_IN
-          store.commit('user/SET_CURRENT_USER', {user_id: 1, name: 'Sam Bell', administrator: 1});
+          console.log('authenticating with ' + localStorage.getItem('auth_token'));
+          let user = await Vue.$http.get('/authenticate');
+          store.commit('user/SET_CURRENT_USER', user.data)
           store.commit('user/SET_LOGGED_IN', true)
           next();
         } catch (err) {
+          Vue.$notify.error('Please log back in.')
           next('/login')
         }
     } 

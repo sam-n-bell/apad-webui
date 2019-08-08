@@ -28,7 +28,9 @@
                     <el-switch
                     v-model="new_user.administrator"
                     active-color ="13ce66"
-                    inactive-color="ff4949">
+                    inactive-color="ff4949"
+                    active-text="Yes"
+                    inactive-text="No">
                     </el-switch>
                 </el-form-item>
             </el-row>
@@ -77,13 +79,21 @@ export default {
     createUser: async function (form_name) {
         try {
             //POST to route
-            this.$refs[form_name].validate((valid) => {
+            this.$refs[form_name].validate(async (valid) => {
                 if (valid) {
+                    console.log('submitting new user');
+                    console.log(this.new_user);
+                    await this.$http.post('/users', this.new_user)
                     this.$notify.success('Success')
+                    await this.$store.dispatch('user/getUsers')
+                    this.close(form_name);
                 } 
             });
         } catch (err) {
             this.$notify.error('Unable to create user');
+            this.close(form_name);
+        } finally {
+
         }
     },
     close (form_name) {

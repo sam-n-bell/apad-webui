@@ -26,7 +26,7 @@
             </el-row>
             <el-row>
                 {{new_event.event_day + ' ' + new_event.start_time}}
-                <el-form-item label="Venue" prop="venue">
+                <el-form-item label="Venue" prop="venue_id">
                     <el-select v-model="new_event.venue_id" @change="getTimeSlots()">
                         <el-option v-for="venue in venues"
                         :key="venue.venue_id"
@@ -38,7 +38,7 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="Day" prop="day">
+                    <el-form-item label="Day" prop="event_day">
                         <el-date-picker
                         v-model="new_event.event_day"
                         type="date"
@@ -66,7 +66,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                <el-form-item :label="new_event.created_by == null ? 'No. of Guests I\'m Brining' : 'No. of Guests Orangizer is Brining'">
+                <el-form-item prop=num_guests :label="new_event.created_by == null ? 'No. of Guests I\'m Brining' : 'No. of Guests Orangizer is Brining'">
                     <el-input-number :min="0" :max="new_event.max_players - 1" v-model="new_event.num_guests"></el-input-number>
                 </el-form-item>
                 </el-col>
@@ -104,7 +104,8 @@ export default {
           start_time: '',
           event_day: '',
           num_guests: 0,
-          description: ''
+          description: '',
+          created_by: null
       },
       rules: {
           name: [
@@ -118,6 +119,12 @@ export default {
           ],
           start_time: [
             { required: true, message: 'Specify when event starts', trigger: 'blur' }
+          ],
+          num_guests: [
+            { required: true, message: 'Specify how many guests you\'re bringing', trigger: 'blur' }
+          ],
+          max_players: [
+            { required: true, message: 'Specify how many people can participate', trigger: 'blur' }
           ]
       }
     }
@@ -125,6 +132,9 @@ export default {
   computed: {
       users () {
          return this.$store.state.user.users_list;
+      },
+      user () {
+         return this.$store.state.user.current_user;
       },
       venues () {
          return this.$store.state.venues.venues;
@@ -136,6 +146,9 @@ export default {
             //POST to route
             this.$refs[form_name].validate((valid) => {
                 if (valid) {
+                    if (this.new_event.created_by == null) {
+                        this.new_event.created_by = this.user.user_id;
+                    }
                     this.resetForm(form_name);
                 } 
             });
