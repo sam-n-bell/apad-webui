@@ -22,25 +22,8 @@ const actions = {
 			// GET VENUES
             // commit('SET_VENUES', venues.data)
             //delete below dummy data once API works
-            let venues_list = []
-            let venue1 = {
-                venue_id: 1,
-                name: 'Highland Lanes',
-                address: '999 Texas HWY Austin TX 78759',
-                activities: 'bowling',
-                open_time: '08:00:00',
-                close_time: '20:00:00',
-            };
-            let venue2 = {
-                venue_id: 2,
-                name: 'Walnut Creek Volleyball Courts',
-                address: '186 Parmer ln  Austin TX 78760',
-                activities: 'volleyball',
-                open_time: '08:00:00',
-                close_time: '20:00:00',
-            }
-            venues_list.push(venue1, venue2);
-			commit('SET_VENUES', venues_list);
+            let request = await Vue.$http.get("/venues")
+			commit('SET_VENUES', request.data)
 		} catch (err) {
 			this.$notify.error('Coudn\'t get list of venues');
 		}

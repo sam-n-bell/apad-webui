@@ -17,7 +17,10 @@ let router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: () => import('./views/pages/Events.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/userstest',

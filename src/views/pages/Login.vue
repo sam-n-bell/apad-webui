@@ -34,8 +34,8 @@ export default {
   data: function () {
     return {
         login_details: {
-            email: "",
-            password: ""
+            email: "sam.bell@utexas.edu",
+            password: "password"
         },
         rules: {
           email: [
@@ -50,9 +50,9 @@ export default {
   methods: {
     login: async function (form_name) {
         try {
-            this.$refs[form_name].validate((valid) => {
+            this.$refs[form_name].validate(async(valid) => {
                 if (valid) {
-                    this.$store.dispatch('user/login', this.login)
+                    await this.$store.dispatch('user/login', this.login_details)
                     // this.$store.commit('user/SET_CURRENT_USER', {user_id: 1, name: 'Sam Bell', administrator: 1});
                     // this.$store.commit('user/SET_LOGGED_IN', true);
                     // localStorage.setItem('auth_token', "abc123");

@@ -12,11 +12,13 @@ const getters = {};
 const actions = {
 	login: async ({ commit }, credentials) => {
 		try {
-			// let login_response = await Vue.$http.get(); check pwd/email, return user object and token
-			credentials.administrator = true;
-			let user = credentials;
-			localStorage.setItem('auth_token', "abc123"); //set token for http requests
-			commit("SET_CURRENT_USER", user); //set to user object returned from python service
+			console.log('calling/login')
+			let login_response = await Vue.$http.post('/login',credentials); //check pwd/email, return user object and token
+			console.log(login_response)
+			//credentials.administrator = true;
+			//let user = credentials;
+			localStorage.setItem('auth_token', login_response.data.token); //set token for http requests
+			commit("SET_CURRENT_USER",login_response.data.user); //set to user object returned from python service
 
 			commit("SET_LOGGED_IN", true);
 		} catch (err) {

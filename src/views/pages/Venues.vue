@@ -48,24 +48,9 @@ export default {
 
   },
   mounted: async function () {
-      let venue1 = {
-          venue_id: 1,
-          name: 'Highland Lanes',
-          address: '999 Texas HWY Austin TX 78759',
-          activities: 'bowling',
-          open_time: '08:00:00',
-          close_time: '20:00:00',
-      };
-      let venue2 = {
-          venue_id: 1,
-          name: 'Walnut Creek Volleyball Courts',
-          address: '186 Parmer ln  Austin TX 78760',
-          activities: 'volleyball',
-          open_time: '08:00:00',
-          close_time: '20:00:00',
-      }
+    
       this.$store.dispatch('venues/getVenues');
-    //   this.venues.push(venue1, venue2)
+    
   }
 }
 </script>
