@@ -26,7 +26,7 @@
             </el-row>
             <el-row>
                 {{new_event.event_day + ' ' + new_event.start_time}}
-                <el-form-item label="Venue" prop="venue">
+                <el-form-item label="Venue" prop="venue_id">
                     <el-select v-model="new_event.venue_id" @change="getTimeSlots()">
                         <el-option v-for="venue in venues"
                         :key="venue.venue_id"
@@ -38,17 +38,18 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="Day" prop="day">
+                    <el-form-item label="Day" prop="event_day">
                         <el-date-picker
                         v-model="new_event.event_day"
                         type="date"
                         placeholder="Pick a day"
-                        value-format="yyyy-MM-dd">
+                        value-format="yyyy-MM-dd"
+                        @change="getTimeSlots()">
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-            <el-col :span="12" v-if="new_event.venue_id !== null && new_event.venue_id !== ''">
-                <el-form-item label="Time" prop="time">
+            <el-col :span="12" v-if="new_event.venue_id !== '' && new_event.venue_id !== ''">
+                <el-form-item label="Available Times" prop="start_time">
                     <el-select v-model="new_event.start_time">
                         <el-option v-for="time in time_slots"
                         :key=time.value
@@ -66,14 +67,14 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                <el-form-item :label="new_event.created_by == null ? 'No. of Guests I\'m Brining' : 'No. of Guests Orangizer is Brining'">
+                <el-form-item prop=num_guests :label="new_event.created_by == null ? 'No. of Guests I\'m Brining' : 'No. of Guests Orangizer is Brining'">
                     <el-input-number :min="0" :max="new_event.max_players - 1" v-model="new_event.num_guests"></el-input-number>
                 </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-form-item label="Participant Comment" prop="max_players">
-                    <el-input type="textarea" v-model="new_event.comment"></el-input>
+                    <el-input type="textarea" v-model="new_event.participant_comment"></el-input>
                     <small>What position are you playing? Comments in general.</small>
                 </el-form-item>
             </el-row>
@@ -88,6 +89,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 
 export default {
   components: {
@@ -104,7 +106,8 @@ export default {
           start_time: '',
           event_day: '',
           num_guests: 0,
-          description: ''
+          participant_comment: '',
+          created_by: null
       },
       rules: {
           name: [
@@ -118,6 +121,12 @@ export default {
           ],
           start_time: [
             { required: true, message: 'Specify when event starts', trigger: 'blur' }
+          ],
+          num_guests: [
+            { required: true, message: 'Specify how many guests you\'re bringing', trigger: 'blur' }
+          ],
+          max_players: [
+            { required: true, message: 'Specify how many people can participate', trigger: 'blur' }
           ]
       }
     }
@@ -125,6 +134,9 @@ export default {
   computed: {
       users () {
          return this.$store.state.user.users_list;
+      },
+      user () {
+         return this.$store.state.user.current_user;
       },
       venues () {
          return this.$store.state.venues.venues;
@@ -134,19 +146,28 @@ export default {
     createEvent: async function (form_name) {
         try {
             //POST to route
-            this.$refs[form_name].validate((valid) => {
+            this.$refs[form_name].validate(async (valid) => {
                 if (valid) {
-                    this.resetForm(form_name);
+                    if (this.new_event.created_by == null) {
+                        this.new_event.created_by = this.user.user_id;
+                    }
+                    if (this.new_event.participant_comment == '') {
+                        this.new_event.participant_comment = 'No comment provided :('
+                    }
+                    console.log(this.new_event)
+                    await this.$http.post('/events', this.new_event);
+                    this.close(form_name);
+                    //emit event
                 } 
             });
         } catch (err) {
-            console.log(err.message)
+            console.log(err)
             this.$notify.error('Unable to create event');
         }
     },
     close (form_name) {
+        this.add_venue_dialog = false;
         this.resetForm(form_name);
-        this.add_venue_dialog = false
     },
     handleClose(done) {
         this.$confirm('Are you sure to close this dialog?')
@@ -165,11 +186,13 @@ export default {
     },
     getTimeSlots:async function () {
         try {
-        //GET timeslots for venue
-            let slots = [{label: '8:00 AM', value: '08:00:00'}];
-            this.time_slots = slots;
+            if (this.new_event.venue_id !== '' && this.new_event.event_day !== '') {
+                console.log(`${this.new_event.venue_id}/availability?day=${this.new_event.event_day}`)
+                let slots = await this.$http.get(`${this.new_event.venue_id}/availability?day=${this.new_event.event_day}`)
+                this.time_slots = slots.data;
+            }
         } catch (err) {
-            this.$notify.err('Issue getting timeslots for venue')
+            this.$notify.error('Issue getting timeslots for venue')
         }
     },
     handleClose(done) {
@@ -193,6 +216,7 @@ export default {
       if (this.$store.state.venues.venues.length == 0) {
           await this.$store.dispatch('venues/getVenues')
       }
+      this.new_event.event_day = moment().format('YYYY-MM-DD')
   }
 }
 </script>

@@ -42,9 +42,7 @@ export default {
 
   },
   mounted: async function () {
-     if(this.$store.state.user.users_list.length==0){
        this.$store.dispatch('user/getUsers');
-     }
   }
 }
 </script>

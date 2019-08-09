@@ -35,7 +35,7 @@ const actions = {
 			let request = await Vue.$http.get('/users')
 			commit('SET_USERS_LIST',request.data)
 		} catch (err) {
-			this.$notify.error('Coudn\'t get list of users');
+			Vue.$notify.error('Coudn\'t get list of users');
 		}
 	}
 };

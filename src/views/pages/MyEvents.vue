@@ -3,7 +3,7 @@
     <div>
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <el-form>
+          <!-- <el-form>
             <el-row>
               <el-col :span="6">
                 <el-date-picker v-model="day" type="date" value-format="yyyy-MM-dd" @change="getEvents()"></el-date-picker>
@@ -24,7 +24,7 @@
                 <create-event></create-event>
               </el-col>
             </el-row>
-          </el-form>
+          </el-form> -->
         </div>
         <el-table :data="events" width="100%">
           <el-table-column sortable label="Name" prop=name></el-table-column>
@@ -35,17 +35,9 @@
           <el-table-column sortable label="Start time">
             <template slot-scope="scope">{{scope.row.start_time | time}}</template>
           </el-table-column>
-          <el-table-column sortable label="Players">
-              <template slot-scope="scope">
-                  {{scope.row.current_num_players}} out of {{scope.row.max_players}}
-              </template>
-          </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-              <el-button @click="joinEvent(scope.row.event_id)" 
-              v-if="scope.row.created_by !== user.user_id 
-              && !isPastDate(scope.row)
-              && scope.row.current_num_players < scope.row.max_players">Join Event</el-button>
+              <el-button @click="cancelEvent(scope.row.event_id)" v-if="scope.row.created_by !== user.user_id">Cancel Event</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -55,21 +47,13 @@
 </template>
 
 <script>
-import CreateEvent from "../components/CreateEvent";
-import TimePicker from "../components/TimePicker";
 import moment from "moment";
 export default {
   components: {
-    CreateEvent,
-    TimePicker
   },
   data: function() {
     return {
-      events: [],
-      venue_id: [],
-      day: null,
-      time: null,
-      my_events_only: false
+      events: []
     };
   },
   computed: {
@@ -81,34 +65,17 @@ export default {
     }
   },
   methods: {
-    joinEvent: async function(event_id) {},
-    setTime(time) {
-      this.time = time;
-      this.getEvents();
-    },
+    cancelEvent: async function(event_id) {},
     getEvents: async function() {
       try {
-          let query = `?date=${this.day}`;
-          if (this.time !== null && this.time !== "") query += `&time=${this.time}`
-          if (this.venue_id !== null && this.venue_id !== "") query += `&venueId=${this.venue_id}`
-          let request = await this.$http.get('/events' + query)
+          let request = await this.$http.get('/my-events')
           this.events = request.data;
       } catch (err) {
-        this.$notify.error("Unable to get events");
+        this.$notify.error("Unable to get my events");
       }
-    },
-    isPastDate(event) {
-        let event_moment_object = moment(event.event_day + ' ' + event.start_time, 'MM/DD/YYYY HH:mm:ss');
-        let today = moment();
-        if (today.isAfter(event_moment_object)) {
-            return true
-        } else {
-            return false
-        }
     }
   },
   mounted: async function() {
-    this.day = moment().format("YYYY-MM-DD");
     await this.getEvents();
   }
 };
