@@ -36,6 +36,14 @@ let router = new Router({
       }
     },
     {
+      path: '/myevents',
+      name: 'myevents',
+      component: () => import('./views/pages/MyEvents.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/venues',
       name: 'venues',
       component: () => import('./views/pages/Venues.vue'),
