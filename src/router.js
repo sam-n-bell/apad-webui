@@ -10,6 +10,11 @@ let router = new Router({
   // base: process.env.BASE_URL,
   routes: [
     {
+      path: '/register',
+      name: '/register',
+      component: () => import('./views/pages/Registration.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('./views/pages/Login.vue')

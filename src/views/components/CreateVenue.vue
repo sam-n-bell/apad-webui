@@ -62,9 +62,10 @@ export default {
     saveVenue: async function (form_name) {
         try {
             //POST to route
-            this.$refs[form_name].validate((valid) => {
+            this.$refs[form_name].validate(async(valid) => {
                 if (valid) {
-                    this.resetForm(form_name);
+                    await this.$http.post('/venue', this.new_venue);
+                    await this.$store.dispatch('venues/getVenues');
                 } 
             });
         } catch (err) {
