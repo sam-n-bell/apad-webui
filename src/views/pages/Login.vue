@@ -50,18 +50,19 @@ export default {
   methods: {
     login: async function (form_name) {
         try {
-            this.$refs[form_name].validate(async(valid) => {
+            this.$refs[form_name].validate(async (valid) => {
                 if (valid) {
-                    await this.$store.dispatch('user/login', this.login_details)
-                    // this.$store.commit('user/SET_CURRENT_USER', {user_id: 1, name: 'Sam Bell', administrator: 1});
-                    // this.$store.commit('user/SET_LOGGED_IN', true);
-                    // localStorage.setItem('auth_token', "abc123");
-                    this.$router.push('/events');
-                    this.$notify.success('Logged in');
+                    try {
+                        await this.$store.dispatch('user/login', this.login_details)
+                        this.$router.push('/events');
+                        this.$notify.success('You\'re logged in')
+                    } catch (err) {
+                        this.$notify.error("Login failed", err.message);
+                    }
                 } 
             });
         } catch (err) {
-            this.$notify.error("Login failed", err.message);
+            this.$notify.error("Unknown error", err.message);
         }
     }
   },

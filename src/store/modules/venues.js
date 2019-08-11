@@ -18,15 +18,11 @@ const actions = {
 		}
 	},
 	getVenues: async ({ commit }) => {
-		try {
 			// GET VENUES
             // commit('SET_VENUES', venues.data)
             //delete below dummy data once API works
-            let request = await Vue.$http.get("/venues")
-			commit('SET_VENUES', request.data)
-		} catch (err) {
-			this.$notify.error('Coudn\'t get list of venues');
-		}
+        let request = await Vue.$http.get("/venues")
+		commit('SET_VENUES', request.data)
 	}
 };
 
