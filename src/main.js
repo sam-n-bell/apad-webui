@@ -13,6 +13,7 @@ import moment from 'moment';
 
 const axios_instance = axios.create({
    baseURL: 'https://flaskappmysql.appspot.com'
+  // baseURL: 'http://127.0.0.1:8080'
 });
 
 //https://stackoverflow.com/q/52168928 helped understand how to apply Authorization Header before each request
@@ -22,6 +23,20 @@ axios_instance.interceptors.request.use((config) => {
 }, (error) => {
   return Promise.reject(error);
 });
+
+axios_instance.interceptors.response.use(
+	response => {
+		return response;
+	},
+	function(error) {
+		if (error.response.status === 401) {
+			store.dispatch("user/logout");
+			// router.replace('/login');
+    }
+    error.message = error.response.data;
+		return Promise.reject(error);
+	}
+);
 
 Vue.use(VueAxios, axios_instance)
 Vue.$http = Vue.prototype.$http; //lets us use Vue.$http.___ in any file
