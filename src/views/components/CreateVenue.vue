@@ -61,15 +61,14 @@ export default {
   methods: {
     saveVenue: async function (form_name) {
         try {
-            //POST to route
             this.$refs[form_name].validate(async(valid) => {
                 if (valid) {
-                    await this.$http.post('/venue', this.new_venue);
+                    await this.$http.post('/venues', this.new_venue);
                     await this.$store.dispatch('venues/getVenues');
+                    this.close(form_name)
                 } 
             });
         } catch (err) {
-            console.log(err.message)
             this.$notify.error('Unable to create venue');
         }
     },

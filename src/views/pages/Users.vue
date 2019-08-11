@@ -16,6 +16,11 @@
                         {{scope.row.administrator | yesno}}
                     </template>
                 </el-table-column>
+                <el-table-column v-if="$store.state.user.current_user.administrator == true">
+                    <template slot-scope="scope">
+                        <el-button type="danger" @click="removeUser(scope.row)">Delete</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
         </el-card>
     </div>
@@ -38,7 +43,20 @@ export default {
       }
   },
   methods: {
-    
+    removeUser: async function (user) {
+        this.$confirm(`Are you sure you want to delete ${user.name}?`, 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+                }).then(async () => {
+                await this.$http.delete(`/users/${user.user_id}`)
+                this.$message({
+                    type: 'success',
+                    message: 'User Deleted'
+                });
+                }).catch(() => {});
+
+    }
 
   },
   mounted: async function () {

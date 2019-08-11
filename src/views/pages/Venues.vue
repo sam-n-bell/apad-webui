@@ -22,6 +22,11 @@
                         {{scope.row.close_time | time}}
                     </template>
                 </el-table-column>
+                <el-table-column v-if="$store.state.user.current_user.administrator == true">
+                    <template slot-scope="scope">
+                        <el-button type="danger" @click="removeVenue(scope.row)">Delete</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
         </el-card>
     </div>
@@ -44,7 +49,20 @@ export default {
       }
   },
   methods: {
-    
+    removeVenue: async function (venue) {
+        this.$confirm(`Are you sure you want to delete ${venue.name}?`, 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+                }).then(async () => {
+                await this.$http.delete(`/venues/${venue.venue_id}`)
+                this.$message({
+                    type: 'success',
+                    message: 'Venue Deleted'
+                });
+                }).catch(() => {});
+
+    }
 
   },
   mounted: async function () {
