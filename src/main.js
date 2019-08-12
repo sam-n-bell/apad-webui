@@ -12,8 +12,8 @@ import './plugins/element.js';
 import moment from 'moment';
 
 const axios_instance = axios.create({
-   baseURL: 'https://flaskappmysql.appspot.com'
-  // baseURL: 'http://127.0.0.1:8080'
+  //  baseURL: 'https://flaskappmysql.appspot.com'
+  baseURL: 'http://127.0.0.1:8080'
 });
 
 //https://stackoverflow.com/q/52168928 helped understand how to apply Authorization Header before each request
@@ -24,6 +24,7 @@ axios_instance.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
+//https://stackoverflow.com/questions/49564283/axios-http-call-is-always-treated-as-succeed
 axios_instance.interceptors.response.use(
 	response => {
 		return response;
@@ -31,7 +32,6 @@ axios_instance.interceptors.response.use(
 	function(error) {
 		if (error.response.status === 401) {
 			store.dispatch("user/logout");
-			// router.replace('/login');
     }
     error.message = error.response.data;
 		return Promise.reject(error);

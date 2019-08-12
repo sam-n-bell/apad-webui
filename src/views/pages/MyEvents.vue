@@ -37,7 +37,7 @@
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-              <el-button @click="cancelEvent(scope.row.event_id)" v-if="scope.row.created_by !== user.user_id">Cancel Event</el-button>
+              <el-button type="danger" @click="cancelEvent(scope.row)" v-if="scope.row.created_by === user.user_id || user.administrator == 1">Cancel Event</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -65,7 +65,25 @@ export default {
     }
   },
   methods: {
-    cancelEvent: async function(event_id) {},
+    cancelEvent: async function(event) {
+      this.$confirm(`Are you sure you want to delete ${event.name}?`, 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+                }).then(async () => {
+                    try {
+                        await this.$http.delete(`/events/${event.event_id}`)
+                        this.$message({
+                            type: 'success',
+                            message: 'Event Deleted'
+                        });
+                    } catch (err) {
+                        this.$notify.error('Problem removing event');
+                    } finally {
+                      await this.getEvents();
+                    }
+                }).catch(() => {});
+    },
     getEvents: async function() {
       try {
           let request = await this.$http.get('/my-events')

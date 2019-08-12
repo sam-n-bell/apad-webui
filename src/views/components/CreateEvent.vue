@@ -73,7 +73,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-form-item label="Participant Comment" prop="max_players">
+                <el-form-item label="Participant Comment">
                     <el-input type="textarea" v-model="new_event.participant_comment"></el-input>
                     <small>What position are you playing? Comments in general.</small>
                 </el-form-item>
@@ -144,26 +144,40 @@ export default {
   },
   methods: {
     createEvent: async function (form_name) {
-        try {
             //POST to route
             this.$refs[form_name].validate(async (valid) => {
                 if (valid) {
+                    try {
                     if (this.new_event.created_by == null) {
                         this.new_event.created_by = this.user.user_id;
                     }
                     if (this.new_event.participant_comment == '') {
                         this.new_event.participant_comment = 'No comment provided :('
                     }
-                    console.log(this.new_event)
-                    await this.$http.post('/events', this.new_event);
-                    this.close(form_name);
+                    if (this.isNotPastDate()) {
+                        await this.$http.post('/events', this.new_event);
+                        this.close(form_name);
+                    } else {
+                        this.$message.error('Event occurs in the past')
+                    }
                     //emit event
+                    this.$emit('eventCreated');
+                    } catch (err) {
+                        console.log(err)
+                        this.$notify.error('Unable to create event');
+                    }
                 } 
             });
-        } catch (err) {
-            console.log(err)
-            this.$notify.error('Unable to create event');
-        }
+    },
+    isNotPastDate () {
+        let event_daytime = moment(this.new_event.event_day + ' ' + this.new_event.start_time, 'YYYY-MM-DD HH:mm:ss');
+        console.log(event_daytime)
+        let now = moment();
+        console.log(now)
+        if (now.isBefore(event_daytime)) {
+            return true
+        } 
+        return false
     },
     close (form_name) {
         this.add_venue_dialog = false;

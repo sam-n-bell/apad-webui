@@ -7,11 +7,10 @@ Vue.use(Router)
 
 let router = new Router({
   mode: 'history',
-  // base: process.env.BASE_URL,
   routes: [
     {
       path: '/register',
-      name: '/register',
+      name: 'register',
       component: () => import('./views/pages/Registration.vue')
     },
     {
@@ -78,13 +77,11 @@ let router = new Router({
 
 router.beforeEach(async (to,from,next) => {
   if (to.meta.requiresAuth ){
-    console.log("must be logged in")
     // if vuex logged_in is false but token is present
     // happens if a page is refreshed, causing vuex to wipe data
     if (!store.state.user.logged_in && localStorage.getItem('auth_token')) {
         try {
           //GET user data
-          console.log('authenticating with ' + localStorage.getItem('auth_token'));
           let user = await Vue.$http.get('/authenticate');
           store.commit('user/SET_CURRENT_USER', user.data)
           store.commit('user/SET_LOGGED_IN', true)

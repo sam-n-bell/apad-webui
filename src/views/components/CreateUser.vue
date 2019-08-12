@@ -6,7 +6,6 @@
         :visible.sync="create_user_dialog"
         width="40%"
         :before-close="handleClose">
-        {{new_user}}
         <el-form :model="new_user" :rules="rules" ref="user_form" label-position="top">
             <el-row>
                 <el-form-item label="Name" prop="name">
@@ -81,8 +80,6 @@ export default {
             //POST to route
             this.$refs[form_name].validate(async (valid) => {
                 if (valid) {
-                    console.log('submitting new user');
-                    console.log(this.new_user);
                     await this.$http.post('/users', this.new_user)
                     this.$notify.success('Success')
                     await this.$store.dispatch('user/getUsers')
@@ -90,10 +87,8 @@ export default {
                 } 
             });
         } catch (err) {
-            this.$notify.error('Unable to create user');
+            this.$notify.error('Problem creating user');
             this.close(form_name);
-        } finally {
-
         }
     },
     close (form_name) {

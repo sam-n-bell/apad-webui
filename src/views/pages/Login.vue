@@ -20,6 +20,11 @@
                 <el-button round type="primary" style="width: 100%;" @click="login('login_form')">Login</el-button>
             </el-col>
         </el-row>
+        <el-row>
+            <el-col>
+                <el-button size="mini" style="width: 100%;" type="text" @click="pushToRegistration()">Create an account here</el-button>
+            </el-col>
+        </el-row>
     </el-form>
 </div>
 </template>
@@ -64,6 +69,9 @@ export default {
         } catch (err) {
             this.$notify.error("Unknown error", err.message);
         }
+    },
+    pushToRegistration () {
+        this.$router.push('register')
     }
   },
   mounted: async function () {

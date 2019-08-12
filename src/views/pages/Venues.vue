@@ -55,15 +55,18 @@ export default {
                 cancelButtonText: 'Cancel',
                 type: 'warning'
                 }).then(async () => {
-                await this.$http.delete(`/venues/${venue.venue_id}`)
-                this.$message({
-                    type: 'success',
-                    message: 'Venue Deleted'
-                });
+                    try {
+                        await this.$http.delete(`/venues/${venue.venue_id}`)
+                        this.$message({
+                            type: 'success',
+                            message: 'Venue Deleted'
+                        });
+                        await this.$store.dispatch('venues/getVenues');
+                    } catch (err) {
+                        this.$notify.error('Problem removing venue');
+                    }
                 }).catch(() => {});
-
     }
-
   },
   mounted: async function () {
     

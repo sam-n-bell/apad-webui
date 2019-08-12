@@ -42,7 +42,7 @@
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-              <el-button @click="joinEvent(scope.row.event_id)" 
+              <el-button @click="openJoinEvent(scope.row)" 
               v-if="scope.row.created_by !== user.user_id 
               && !isPastDate(scope.row)
               && scope.row.current_num_players < scope.row.max_players">Join Event</el-button>
@@ -51,6 +51,46 @@
         </el-table>
       </el-card>
     </div>
+
+    <el-dialog
+        title="Join Event"
+        :visible.sync="join_event_dialog"
+        width="40%"
+        :before-close="handleClose">
+        <el-form :model="new_participant" :rules="rules" ref="join_form" label-position="top">
+           <el-row>
+             {{new_participant}}
+                <el-form-item label="User being added (if not you)" v-if="$store.state.user.current_user.administrator == 1">
+                    <el-select v-model="new_participant.user_id" @change="checkForCreator()">
+                        <el-option key=null, value=null, label=" "></el-option>
+                        <el-option v-for="user in users"
+                        :key="user.user_id"
+                        :value="user.user_id"
+                        :label=user.name
+                        ></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                <el-form-item prop=num_guests label="No. of Guests">
+                    <el-input-number :min="0" :max="selected_event.max_players - 2" v-model="new_participant.num_guests"></el-input-number>
+                </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-form-item label="Participant Comment">
+                    <el-input type="textarea" v-model="new_participant.participant_comment"></el-input>
+                    <small>What position are you playing? Comments in general.</small>
+                </el-form-item>
+            </el-row>
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="joinEvent('join_form')">Join</el-button>
+            <el-button @click="close('join_form')">Cancel</el-button>
+        </span>
+        </el-dialog>
   </div>
 </template>
 
@@ -69,7 +109,19 @@ export default {
       venue_id: [],
       day: null,
       time: null,
-      my_events_only: false
+      my_events_only: false,
+      selected_event: {},
+      join_event_dialog: false,
+      new_participant: {
+        user_id: null,
+        num_guests: 0,
+        participant_comment: '',
+      },
+      rules: {
+          num_guests: [
+            { required: true, message: 'Specify how many guests you\'re bringing', trigger: 'blur' }
+          ]
+      }
     };
   },
   computed: {
@@ -78,10 +130,57 @@ export default {
     },
     user() {
         return this.$store.state.user.current_user;
-    }
+    },
+    users () {
+         return this.$store.state.user.users_list;
+      }
   },
   methods: {
-    joinEvent: async function(event_id) {},
+    checkForCreator () {
+      
+    },
+    openJoinEvent (event) {
+        this.selected_event = event;
+        this.join_event_dialog = true;
+    },
+    closeJoinDialog (form_name) {
+        this.$refs[form_name].resetFields();
+        this.join_event_dialog = false;
+        this.selected_event = {};
+    },
+    handleClose(done) {
+        this.$confirm('Are you sure to close this dialog?')
+          .then(_ => {
+            done();
+            this.resetForm('join_form')
+          })
+          .catch(_ => {});
+    },
+    joinEvent: async function(form_name) {
+      this.$refs[form_name].validate(async (valid) => {
+          if (valid) {
+              try {
+                if (this.new_participant.user_id == null) {
+                    this.new_participant.created_by = this.user.user_id;
+                }
+                if (this.new_participant.participant_comment == '') {
+                    this.new_participant.participant_comment = 'No comment provided :('
+                }
+                if (this.new_participant.user_id === this.selected_event.created_by) {
+                    this.new_participant = null;
+                    this.$message.info('Can\'t select the person who made the event');
+                } else {
+                    await this.$http.post(`/events/${this.selected_event.event_id}/join`, this.new_participant);
+                    this.$notify.success('Joined Event');
+                    await this.getEvents();
+                    this.closeJoinDialog(form_name);
+                }
+              } catch (err) {
+                this.$notify.error('Error: ' + err.message.message)
+              }
+          }
+      });
+    },
     setTime(time) {
       this.time = time;
       this.getEvents();

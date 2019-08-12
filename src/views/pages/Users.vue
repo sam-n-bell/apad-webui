@@ -49,11 +49,17 @@ export default {
                 cancelButtonText: 'Cancel',
                 type: 'warning'
                 }).then(async () => {
-                await this.$http.delete(`/users/${user.user_id}`)
-                this.$message({
-                    type: 'success',
-                    message: 'User Deleted'
-                });
+                    try {
+                        await this.$http.delete(`/users/${user.user_id}`)
+                        this.$message({
+                            type: 'success',
+                            message: 'User Deleted'
+                        });
+                        await this.$store.dispatch('user/getUsers')
+                    } catch (err) {
+                        console.log(err.message)
+                        this.$notify.error('Problem removing user');
+                    }
                 }).catch(() => {});
 
     }
