@@ -15,7 +15,21 @@
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-              <el-button type="danger" @click="cancelEvent(scope.row)" v-if="scope.row.created_by === user.user_id || user.administrator == 1">Cancel Event</el-button>
+                  <el-dropdown split-button type="primary">
+                  I want to...
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item v-if="scope.row.created_by !== user.user_id">
+                      <el-button type="text" @click="leaveEvent(scope.row)">Leave Event</el-button>
+                  </el-dropdown-item>
+                  <el-dropdown-item v-if="scope.row.created_by === user.user_id || user.administrator == 1">
+                      <el-button type="text" @click="cancelEvent(scope.row)">Cancel Event</el-button>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
             </template>
           </el-table-column>
         </el-table>
@@ -43,24 +57,43 @@ export default {
     }
   },
   methods: {
+    leaveEvent: async function(event) {
+      this.$confirm(`Are you sure you want to leave ${event.name}?`, 'Warning', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+        }).then(async () => {
+            try {
+                await this.$http.delete(`/events/${event.event_id}/leave`)
+                this.$message({
+                    type: 'success',
+                    message: 'Removed from event'
+                });
+            } catch (err) {
+                this.$notify.error('Problem leaving event');
+            } finally {
+              await this.getEvents();
+            }
+        }).catch(() => {});
+    },
     cancelEvent: async function(event) {
       this.$confirm(`Are you sure you want to delete ${event.name}?`, 'Warning', {
-                confirmButtonText: 'OK',
-                cancelButtonText: 'Cancel',
-                type: 'warning'
-                }).then(async () => {
-                    try {
-                        await this.$http.delete(`/events/${event.event_id}`)
-                        this.$message({
-                            type: 'success',
-                            message: 'Event Deleted'
-                        });
-                    } catch (err) {
-                        this.$notify.error('Problem removing event');
-                    } finally {
-                      await this.getEvents();
-                    }
-                }).catch(() => {});
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning'
+        }).then(async () => {
+            try {
+                await this.$http.delete(`/events/${event.event_id}`)
+                this.$message({
+                    type: 'success',
+                    message: 'Event Deleted'
+                });
+            } catch (err) {
+                this.$notify.error('Problem removing event');
+            } finally {
+              await this.getEvents();
+            }
+        }).catch(() => {});
     },
     getEvents: async function() {
       try {
