@@ -10,7 +10,7 @@
             <el-row>
                 <el-form-item label="Event Creator (if not you)" v-if="$store.state.user.current_user.administrator == 1">
                     <el-select v-model="new_event.created_by">
-                        <el-option key=null, value=null, label=" "></el-option>
+                        <el-option :key=null :value=null label=" "></el-option>
                         <el-option v-for="user in users"
                         :key="user.user_id"
                         :value="user.user_id"
@@ -147,7 +147,7 @@ export default {
             this.$refs[form_name].validate(async (valid) => {
                 if (valid) {
                     try {
-                    if (this.new_event.created_by == null) {
+                    if (this.new_event.created_by == "" || this.new_event.created_by == null) {
                         this.new_event.created_by = this.user.user_id;
                     }
                     if (this.new_event.participant_comment == '') {
@@ -162,7 +162,6 @@ export default {
                     //emit event
                     this.$emit('eventCreated');
                     } catch (err) {
-                        console.log(err)
                         this.$notify.error('Unable to create event');
                     }
                 } 
@@ -198,7 +197,6 @@ export default {
     getTimeSlots:async function () {
         try {
             if (this.new_event.venue_id !== '' && this.new_event.event_day !== '') {
-                console.log(`${this.new_event.venue_id}/availability?day=${this.new_event.event_day}`)
                 let slots = await this.$http.get(`${this.new_event.venue_id}/availability?day=${this.new_event.event_day}`)
                 this.time_slots = slots.data;
             }
@@ -220,7 +218,6 @@ export default {
     }
   },
   mounted: async function () {
-      console.log(this.$store.state.user.users_list.length)
       if (this.$store.state.user.users_list.length == 0) {
           await this.$store.dispatch('user/getUsers')
       }

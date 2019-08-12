@@ -75,7 +75,7 @@ export default {
     }
   },
   mounted: async function () {
-      this.$notify.info(`logged in: ${this.$store.state.user.logged_in}`)
+      
   }
 }
 </script>
