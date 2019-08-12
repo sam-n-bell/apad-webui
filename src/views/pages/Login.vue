@@ -39,8 +39,8 @@ export default {
   data: function () {
     return {
         login_details: {
-            email: "sam.bell@utexas.edu",
-            password: "password"
+            email: "",
+            password: ""
         },
         rules: {
           email: [

@@ -12,8 +12,8 @@ import './plugins/element.js';
 import moment from 'moment';
 
 const axios_instance = axios.create({
-  //  baseURL: 'https://flaskappmysql.appspot.com'
-  baseURL: 'http://127.0.0.1:8080'
+    baseURL: 'https://flaskappmysql.appspot.com'
+ // baseURL: 'http://127.0.0.1:8080'
 });
 
 //https://stackoverflow.com/q/52168928 helped understand how to apply Authorization Header before each request
