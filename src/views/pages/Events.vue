@@ -21,7 +21,7 @@
                 {{time}}
               </el-col>
               <el-col :span="6" style="float: right;">
-                <create-event></create-event>
+                <create-event v-on:eventCreated="getEvents"></create-event>
               </el-col>
             </el-row>
           </el-form>
@@ -48,6 +48,11 @@
               && scope.row.current_num_players < scope.row.max_players">Join Event</el-button>
             </template>
           </el-table-column>
+          <el-table-column v-if="user.administrator == 1">
+            <template slot-scope="scope">
+              <el-button @click="cancelEvent(scope.row)">Cancel Event</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </el-card>
     </div>
@@ -61,7 +66,7 @@
            <el-row>
              {{new_participant}}
                 <el-form-item label="User being added (if not you)" v-if="$store.state.user.current_user.administrator == 1">
-                    <el-select v-model="new_participant.user_id" @change="checkForCreator()">
+                    <el-select v-model="new_participant.user_id">
                         <el-option key=null, value=null, label=" "></el-option>
                         <el-option v-for="user in users"
                         :key="user.user_id"
@@ -136,8 +141,24 @@ export default {
       }
   },
   methods: {
-    checkForCreator () {
-      
+    cancelEvent: async function (event) {
+        this.$confirm(`Are you sure you want to delete ${event.name}?`, 'Warning', {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+                }).then(async () => {
+                    try {
+                        await this.$http.delete(`/events/${event.event_id}`)
+                        this.$message({
+                            type: 'success',
+                            message: 'Event Deleted'
+                        });
+                    } catch (err) {
+                        this.$notify.error('Problem removing event');
+                    } finally {
+                      await this.getEvents();
+                    }
+                }).catch(() => {});
     },
     openJoinEvent (event) {
         this.selected_event = event;

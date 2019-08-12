@@ -3,28 +3,6 @@
     <div>
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <!-- <el-form>
-            <el-row>
-              <el-col :span="6">
-                <el-date-picker v-model="day" type="date" value-format="yyyy-MM-dd" @change="getEvents()"></el-date-picker>
-              </el-col>
-              <el-col :span="6">
-                  <el-select v-model="venue_id" @change="getEvents()">
-                      <el-option :key=null :value=null label=""></el-option>
-                      <el-option v-for="venue in venues"
-                      :key=venue.venue_id :value=venue.venue_id :label=venue.name>
-                      </el-option>
-                  </el-select>
-              </el-col>
-              <el-col :span="6">
-                <time-picker v-on:timeChanged="setTime"></time-picker>
-                {{time}}
-              </el-col>
-              <el-col :span="6" style="float: right;">
-                <create-event></create-event>
-              </el-col>
-            </el-row>
-          </el-form> -->
         </div>
         <el-table :data="events" width="100%">
           <el-table-column sortable label="Name" prop=name></el-table-column>

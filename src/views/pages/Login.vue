@@ -62,12 +62,12 @@ export default {
                         this.$router.push('/events');
                         this.$notify.success('You\'re logged in')
                     } catch (err) {
-                        this.$notify.error("Login failed", err.message);
+                        this.$notify.error("Login failed " + err.message.message);
                     }
                 } 
             });
         } catch (err) {
-            this.$notify.error("Unknown error", err.message);
+            this.$notify.error("Unknown error " + err.message.message);
         }
     },
     pushToRegistration () {
