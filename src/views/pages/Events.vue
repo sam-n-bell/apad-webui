@@ -153,7 +153,7 @@ export default {
                 }).then(async () => {
                     try {
                         await this.$http.delete(`/events/${event.event_id}`)
-                        this.$message({
+                        this.$notify({
                             type: 'success',
                             message: 'Event Deleted'
                         });

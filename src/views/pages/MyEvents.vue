@@ -15,21 +15,17 @@
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-                  <el-dropdown split-button type="primary">
+                <el-dropdown split-button type="primary">
                   I want to...
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item v-if="scope.row.created_by !== user.user_id">
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item v-if="scope.row.created_by !== user.user_id">
                       <el-button type="text" @click="leaveEvent(scope.row)">Leave Event</el-button>
-                  </el-dropdown-item>
-                  <el-dropdown-item v-if="scope.row.created_by === user.user_id || user.administrator == 1">
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="scope.row.created_by === user.user_id || user.administrator == 1">
                       <el-button type="text" @click="cancelEvent(scope.row)">Cancel Event</el-button>
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown>
-            </template>
-          </el-table-column>
-          <el-table-column>
-            <template slot-scope="scope">
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
             </template>
           </el-table-column>
         </el-table>
