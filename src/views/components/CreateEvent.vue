@@ -25,7 +25,6 @@
                 </el-form-item>
             </el-row>
             <el-row>
-                {{new_event.event_day + ' ' + new_event.start_time}}
                 <el-form-item label="Venue" prop="venue_id">
                     <el-select v-model="new_event.venue_id" @change="getTimeSlots()">
                         <el-option v-for="venue in venues"
@@ -67,7 +66,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                <el-form-item prop=num_guests :label="new_event.created_by == null ? 'No. of Guests I\'m Brining' : 'No. of Guests Orangizer is Brining'">
+                <el-form-item prop=num_guests :label="new_event.created_by == null ? 'No. of Guests I\'m Bringing' : 'No. of Guests Orangizer is Bringing'">
                     <el-input-number :min="0" :max="new_event.max_players - 1" v-model="new_event.num_guests"></el-input-number>
                 </el-form-item>
                 </el-col>
@@ -171,9 +170,7 @@ export default {
     },
     isNotPastDate () {
         let event_daytime = moment(this.new_event.event_day + ' ' + this.new_event.start_time, 'YYYY-MM-DD HH:mm:ss');
-        console.log(event_daytime)
         let now = moment();
-        console.log(now)
         if (now.isBefore(event_daytime)) {
             return true
         } 

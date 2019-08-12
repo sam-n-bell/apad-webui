@@ -7,7 +7,19 @@
   text-color="#fff"
   active-text-color="#ffd04b"
   :default-active="active_link">
-  <el-menu-item index="1" @click="logout()" style="float: right;">Logout</el-menu-item>
+  <!-- <el-menu-item index="1" @click="logout()" style="float: right;">Logout of {{user.name}}</el-menu-item> -->
+  <el-menu-item index="1" style="float: right;">
+    <el-dropdown>
+    <el-button size="mini" type="text">
+                  {{user.email}}<i class="el-icon-arrow-down el-icon--right"></i>
+                  </el-button>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>
+          <el-button type="text" @click="logout()">Logout</el-button>
+        </el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+  </el-menu-item>
   <el-menu-item index="events" @click="pushTo('events')"><router-link to="events">Events</router-link></el-menu-item>
   <el-menu-item index="myevents" @click="pushTo('myevents')"><router-link to="myevents">My Events</router-link></el-menu-item>
   <el-menu-item index="venues" @click="pushTo('venues')"><router-link to="venues">Venues</router-link></el-menu-item>
@@ -30,20 +42,16 @@ export default {
     }
   },
   computed: {
+    user () {
+      return this.$store.state.user.current_user;
+    }
   },
   watch: {
     $route (newVal, oldVal) {
-      console.log(`route changed to ${newVal} from ${oldVal}`)
-      console.log(newVal);
-      console.log(oldVal)
       this.active_link = newVal.name
     }
   },
   methods: {
-    getData: async function(){
-      let response = await this.$http.get('https://swapi.co/api/films/');
-      console.log(response);
-    },
     logout: async function() {
       await this.$store.dispatch('user/logout');
     },

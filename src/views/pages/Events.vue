@@ -3,22 +3,27 @@
     <div>
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <el-form>
+          <el-form label-position="left">
             <el-row>
               <el-col :span="6">
-                <el-date-picker v-model="day" type="date" value-format="yyyy-MM-dd" @change="getEvents()"></el-date-picker>
+                <el-form-item label="Day">
+                  <el-date-picker v-model="day" type="date" value-format="yyyy-MM-dd" @change="getEvents()"></el-date-picker>
+                </el-form-item>
               </el-col>
               <el-col :span="6">
+                <el-form-item label="Venue">
                   <el-select v-model="venue_id" @change="getEvents()">
                       <el-option :key=null :value=null label=""></el-option>
                       <el-option v-for="venue in venues"
                       :key=venue.venue_id :value=venue.venue_id :label=venue.name>
                       </el-option>
                   </el-select>
+                </el-form-item>
               </el-col>
               <el-col :span="6">
-                <time-picker v-on:timeChanged="setTime"></time-picker>
-                {{time}}
+                <el-form-item label="Time">
+                  <time-picker v-on:timeChanged="setTime"></time-picker>
+                </el-form-item>
               </el-col>
               <el-col :span="6" style="float: right;">
                 <create-event v-on:eventCreated="getEvents"></create-event>
@@ -50,7 +55,7 @@
           </el-table-column>
           <el-table-column v-if="user.administrator == 1">
             <template slot-scope="scope">
-              <el-button @click="cancelEvent(scope.row)">Cancel Event</el-button>
+              <el-button type="danger" @click="cancelEvent(scope.row)">Cancel Event</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -64,7 +69,6 @@
         :before-close="handleClose">
         <el-form :model="new_participant" :rules="rules" ref="join_form" label-position="top">
            <el-row>
-             {{new_participant}}
                 <el-form-item label="User being added (if not you)" v-if="$store.state.user.current_user.administrator == 1">
                     <el-select v-model="new_participant.user_id">
                         <el-option key=null, value=null, label=" "></el-option>
@@ -93,7 +97,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button type="primary" @click="joinEvent('join_form')">Join</el-button>
-            <el-button @click="close('join_form')">Cancel</el-button>
+            <el-button @click="closeJoinDialog('join_form')">Cancel</el-button>
         </span>
         </el-dialog>
   </div>
@@ -182,7 +186,7 @@ export default {
           if (valid) {
               try {
                 if (this.new_participant.user_id == null) {
-                    this.new_participant.created_by = this.user.user_id;
+                    this.new_participant.user_id = this.user.user_id;
                 }
                 if (this.new_participant.participant_comment == '') {
                     this.new_participant.participant_comment = 'No comment provided :('
