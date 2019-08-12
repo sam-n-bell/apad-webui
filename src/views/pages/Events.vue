@@ -71,7 +71,7 @@
            <el-row>
                 <el-form-item label="User being added (if not you)" v-if="$store.state.user.current_user.administrator == 1">
                     <el-select v-model="new_participant.user_id">
-                        <el-option key=null, value=null, label=" "></el-option>
+                        <el-option :key=null :value=null label=" "></el-option>
                         <el-option v-for="user in users"
                         :key="user.user_id"
                         :value="user.user_id"
