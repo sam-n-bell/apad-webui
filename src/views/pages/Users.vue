@@ -40,6 +40,9 @@ export default {
   computed: {
       users () {
           return this.$store.state.user.users_list;
+      },
+      user() {
+          return this.$store.state.user.current_user;
       }
   },
   methods: {
@@ -57,7 +60,7 @@ export default {
                         });
                         await this.$store.dispatch('user/getUsers')
                     } catch (err) {
-                        console.log(err.message)
+                        
                         this.$notify.error('Problem removing user');
                     }
                 }).catch(() => {});
@@ -66,6 +69,9 @@ export default {
 
   },
   mounted: async function () {
+    if (!this.user.administrator){
+      this.$router.push('events')
+    }
        this.$store.dispatch('user/getUsers');
   }
 }
