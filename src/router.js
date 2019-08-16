@@ -58,6 +58,11 @@ let router = new Router({
         requiresAuth: true,
         // permission: 'admin'
       }
+    },
+    {
+      path: '/info',
+      name: 'info',
+      component: () => import('./views/pages/Info.vue')
     }
     // {
     //   path: '/about',

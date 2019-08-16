@@ -24,6 +24,7 @@
   <el-menu-item index="myevents" @click="pushTo('myevents')"><router-link to="myevents">My Events</router-link></el-menu-item>
   <el-menu-item index="venues" @click="pushTo('venues')"><router-link to="venues">Venues</router-link></el-menu-item>
   <el-menu-item v-if="$store.state.user.current_user.administrator == true" index="users" @click="pushTo('users')"><router-link to="users">Users</router-link></el-menu-item>
+  <el-menu-item index="info" @click="pushTo('info')"><router-link to="info">Info</router-link></el-menu-item>
 </el-menu>
 </div>
 </template>
