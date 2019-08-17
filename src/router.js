@@ -60,10 +60,11 @@ let router = new Router({
       }
     },
     {
-      path: '/info',
-      name: 'info',
-      component: () => import('./views/pages/Info.vue')
+      path: '/download',
+      name: 'download',
+      component: () => import('./views/pages/Download.vue')
     }
+  
     // {
     //   path: '/about',
     //   name: 'about',
