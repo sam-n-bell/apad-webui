@@ -2,24 +2,31 @@
 <div>
     <el-row>
         <h1> Download the App Here!</h1>
-        <el-form class="button">
-         <form action="https://github.com/sbell9/events-android">
-    <input type="submit" value="Download here" />
-         </form>
+        <el-form>
+         <!-- <form action="https://github.com/sbell9/events-android"> -->
+         <el-button type="primary" round @click="pushToDownload()"> Download Here</el-button>
+    <!-- <input type="submit" value="Download here" /> -->
            </el-form>
         </el-row>
 </div>
 </template>
 
-<style>
-.button {
-  background-color: rgb(112, 0, 186);
-  border: none;
-  color: black;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-</style>
+<script>
+
+export default {
+  components: {
+    
+  },
+  data: function () {
+        },
+
+        methods:{
+         pushToDownload () {
+        window.location = "https://github.com/sbell9/events-android"
+    }
+        }
+  }
+ 
+</script>
+
+

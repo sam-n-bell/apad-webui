@@ -14,6 +14,11 @@ let router = new Router({
       component: () => import('./views/pages/Info.vue')
     },
     {
+      path:'/aboutus',
+      name:'aboutus',
+      component: () => import('./views/pages/AboutUs.vue')
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('./views/pages/Registration.vue')
@@ -67,7 +72,10 @@ let router = new Router({
     {
       path: '/download',
       name: 'download',
-      component: () => import('./views/pages/Download.vue')
+      component: () => import('./views/pages/Download.vue'),
+      meta: {
+        requiresAuth: true
+      }
     }
   
     // {
