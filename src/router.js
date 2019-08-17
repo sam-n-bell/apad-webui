@@ -9,6 +9,11 @@ let router = new Router({
   mode: 'history',
   routes: [
     {
+      path: '/info',
+      name: 'info',
+      component: () => import('./views/pages/Info.vue')
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('./views/pages/Registration.vue')
