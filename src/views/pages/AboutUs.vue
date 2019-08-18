@@ -4,7 +4,7 @@
           <el-row>
               <el-col :span="24">
                   <h2>About Our App</h2>
-                  <p>Insert Info About App.</p>
+                  <p>Our App, SBSO Events makes scheduling events easy.</p>
               </el-col>
           </el-row>
           </el-card>

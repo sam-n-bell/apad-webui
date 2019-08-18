@@ -23,7 +23,7 @@
 				  <el-collapse-item title="Register Screenshot" name="2">
                   <div><img alt= "Register" src="../../assets/register.png"></div>
 				  </el-collapse-item>
-                  <p> Simply providing a name, email, password, and confirmation will register you for an account! After registering, you will be brought back to the login page where you can get access to your new account</p>
+                  <p> Simply providing a name, email, password, and confirmation will register you for an account! Just be sure that passwords match and the email is not already in use. After registering, you will be brought back to the login page where you can get access to your new account.</p>
                   <p> Once you login, you are taken to the events page. </p>
                   <el-collapse-item title = "Events Page Screenshot" name = "3">
                   <div><img src="../../assets/events.png" alt=""></div>
@@ -78,8 +78,33 @@
           <el-card class="box-card">
           <el-row>
               <el-col :span="24">
+                <el-collapse v-model="android" @change="ahandleChange">
                   <h2>How the Android App Works</h2>
-                  <p>Tutorial of App Goes Here</p>
+                  <p>Now that we've discussed how the website works, let's go over an app tutorial.</p>
+                  <p> The first page that you are brought to when you open the app is the login page.</p>
+                  <el-collapse-item title="App Login Screenshot" name="1">
+                  <div><img alt="" src="../../assets/homeportal - login page.png"></div>
+				          </el-collapse-item>
+                  <p> On the login page, you have the option to register for a new acount by clicking the register button on the bottom left.</p>
+                  <p> The registration page allows you to create a new account. The passwords must match for account creation, just as it would for the website. </p>
+                  <el-collapse-item title="App Create Account Screenshot" name="2">
+                  <div><img alt="" src="../../assets/create an account.png"></div>
+				          </el-collapse-item>
+                  <p> After creating an account, you will be taken back to the login page where you can login to your new account.</p>
+                  <p> Then, after logging in, you are brought to an events lists page with different options. We can either view our events, see daily events that are happening, create an event, or logout. </p>
+                  <el-collapse-item title="App List Page Screenshot" name="3">
+                  <div><img alt="" src="../../assets/the events list page.png"></div>
+				          </el-collapse-item>
+                  <p>First, let's create an own event.</p>
+                  <el-collapse-item title="App Create An Event Screenshot" name="4">
+                  <div><img alt="" src="../../assets/create an event.png"></div>
+				          </el-collapse-item>
+                  <p>We can choose the date we want the event to be on from the calendar.</p>
+                  <el-collapse-item title="App Create An Event Date Picker Screenshot" name="5">
+                  <div><img alt="" src="../../assets/creating an event - choosing a day.png"></div>
+				          </el-collapse-item>
+                  <p></p>
+                </el-collapse>
               </el-col>
           </el-row>
           </el-card>
@@ -103,6 +128,9 @@ export default {
     return {
       activeNames: ['1']
     };
+    return {
+      android: ['1']
+    };
   },
   methods: {
   
@@ -111,7 +139,10 @@ export default {
     },
      handleChange(val) {
         console.log(val);
-      }
+      },
+      ahandleChange(val){
+        console.log(val)
+      },
   },
   mounted: async function() {
     
