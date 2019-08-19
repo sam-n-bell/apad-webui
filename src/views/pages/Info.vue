@@ -95,15 +95,33 @@
                   <el-collapse-item title="App List Page Screenshot" name="3">
                   <div><img alt="" src="../../assets/the events list page.png"></div>
 				          </el-collapse-item>
-                  <p>First, let's create an own event.</p>
+                  <p>First, let's create an event.</p>
                   <el-collapse-item title="App Create An Event Screenshot" name="4">
                   <div><img alt="" src="../../assets/create an event.png"></div>
 				          </el-collapse-item>
-                  <p>We can choose the date we want the event to be on from the calendar.</p>
+                  <p>You can choose the date you want the event to be on from the calendar.</p>
                   <el-collapse-item title="App Create An Event Date Picker Screenshot" name="5">
                   <div><img alt="" src="../../assets/creating an event - choosing a day.png"></div>
 				          </el-collapse-item>
-                  <p></p>
+                  <p>You can then specify the venue, pick a time, give the event a name, decide the max number of players, and how many guests you will be bringing.</p>
+                  <el-collapse-item title="App Create An Event Details Screenshot" name="6">
+                  <div><img alt="" src="../../assets/more creating events.png"></div>
+				          </el-collapse-item>
+                  <p>Next, you can go back to the lists page and look at My Events.You can see the event you just created as well as any other events that you have created. Each event will have the event name, venue, date, and time the event starts displayed.</p>
+                  <el-collapse-item title="App My Events Screenshot" name="7">
+                  <div><img alt="" src="../../assets/my events example.png"></div>
+				          </el-collapse-item>
+                  <p>Going back to the lists page, you then go to the daily events page. The daily events page displays all events happening given the date. Using the date picker, you can see what events are happening on the day you choose. Once again, each event will have the event name, venue, date, and time the event starts displayed. </p>
+                   <el-collapse-item title="App Daily Events Screenshots" name="8">
+                     <el-row>
+                      <el-col :span="16">
+                  <div><img alt="" src="../../assets/daily events page.png"></div>
+                      </el-col>
+                       <el-col :span="16">
+                  <div><img alt="" src="../../assets/daily events - change dates.png"></div>
+                      </el-col>
+                     </el-row>
+				          </el-collapse-item>
                 </el-collapse>
               </el-col>
           </el-row>
