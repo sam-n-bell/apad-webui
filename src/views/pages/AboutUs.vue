@@ -4,7 +4,7 @@
           <el-row>
               <el-col :span="24">
                   <h2>About Our App</h2>
-                  <p>Our App, SBSO Events makes scheduling events easy.</p>
+                  <p>Our App, SBSO Events makes scheduling events easy. SBSO Events will allow users to create their own events and join daily events created by others. SBSO Events takes the best features of our website and implements them in an app for Android devices.</p>
               </el-col>
           </el-row>
           </el-card>

@@ -80,18 +80,18 @@
               <el-col :span="24">
                 <el-collapse v-model="android" @change="ahandleChange">
                   <h2>How the Android App Works</h2>
-                  <p>Now that we've discussed how the website works, let's go over an app tutorial.</p>
+                  <p>Now that we've discussed how the website works, let's go over the app tutorial.</p>
                   <p> The first page that you are brought to when you open the app is the login page.</p>
                   <el-collapse-item title="App Login Screenshot" name="1">
-                  <div><img alt="" src="../../assets/homeportal - login page.png"></div>
+                  <div><img alt="" src="../../assets/loginapp1.png"></div>
 				          </el-collapse-item>
                   <p> On the login page, you have the option to register for a new acount by clicking the register button on the bottom left.</p>
-                  <p> The registration page allows you to create a new account. The passwords must match for account creation, just as it would for the website. </p>
+                  <p> The registration page allows you to create a new account. The passwords must match for account creation and the email cannot already be in use just like it would for the website. </p>
                   <el-collapse-item title="App Create Account Screenshot" name="2">
-                  <div><img alt="" src="../../assets/create an account.png"></div>
+                  <div><img alt="" src="../../assets/create an account NEW.png"></div>
 				          </el-collapse-item>
                   <p> After creating an account, you will be taken back to the login page where you can login to your new account.</p>
-                  <p> Then, after logging in, you are brought to an events lists page with different options. We can either view our events, see daily events that are happening, create an event, or logout. </p>
+                  <p> Then, after logging in, you are brought to an events lists page with different options. You can either view your events, see daily events that are happening and join an event, create an event, or logout. </p>
                   <el-collapse-item title="App List Page Screenshot" name="3">
                   <div><img alt="" src="../../assets/the events list page.png"></div>
 				          </el-collapse-item>
@@ -107,20 +107,23 @@
                   <el-collapse-item title="App Create An Event Details Screenshot" name="6">
                   <div><img alt="" src="../../assets/more creating events.png"></div>
 				          </el-collapse-item>
-                  <p>Next, you can go back to the lists page and look at My Events.You can see the event you just created as well as any other events that you have created. Each event will have the event name, venue, date, and time the event starts displayed.</p>
-                  <el-collapse-item title="App My Events Screenshot" name="7">
-                  <div><img alt="" src="../../assets/my events example.png"></div>
-				          </el-collapse-item>
-                  <p>Going back to the lists page, you then go to the daily events page. The daily events page displays all events happening given the date. Using the date picker, you can see what events are happening on the day you choose. Once again, each event will have the event name, venue, date, and time the event starts displayed. </p>
-                   <el-collapse-item title="App Daily Events Screenshots" name="8">
+                  <p>Going back to the lists page, you then go to the daily events page. The daily events page displays all events happening given the date. Using the date picker, you can see what events are happening on the day you choose. Once again, each event will have the event name, venue, date, and time the event starts displayed. You can then join an event as a solo player by pressing the Join Solo button on an event. It will then show that you have been added to the event.</p>
+                   <el-collapse-item title="App Daily Events Screenshots" name="7">
                      <el-row>
                       <el-col :span="16">
-                  <div><img alt="" src="../../assets/daily events page.png"></div>
-                      </el-col>
-                       <el-col :span="16">
                   <div><img alt="" src="../../assets/daily events - change dates.png"></div>
                       </el-col>
+                       <el-col :span="16">
+                  <div><img alt="" src="../../assets/dailyevents.png"></div>
+                      </el-col>
+                      <el-col :span="16">
+                  <div><img alt="" src="../../assets/added to event.png"></div>
+                      </el-col>
                      </el-row>
+				          </el-collapse-item>
+                  <p>Next, you can go back to the lists page and look at My Events. You can see any events that you have created or joined. Each event will have the event name, venue, date, and time the event starts displayed.</p>
+                  <el-collapse-item title="App My Events Screenshot" name="8">
+                  <div><img alt="" src="../../assets/my events NEW.png"></div>
 				          </el-collapse-item>
                 </el-collapse>
               </el-col>
