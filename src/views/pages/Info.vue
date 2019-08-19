@@ -16,7 +16,7 @@
                   <p>Now that we've introduced the purpose of our project, let's go through a tutorial of how it works, first for normal users.</p>
                   <p>Let's start with our login page, which is where users can login or be redirected to sign up for an account.</p>
 			
-				  <el-collapse-item title="Login Screenshot" name="1">
+				  <el-collapse-item title="Login Screenshot (Click to Expand Any Title)" name="1">
                   <div><img alt="Login" src="../../assets/login.png"></div>
 				  </el-collapse-item>
                   <p> By clicking Create an account here, you will be redirected to our register page.</p>

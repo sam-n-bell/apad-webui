@@ -11,12 +11,18 @@ let router = new Router({
     {
       path: '/info',
       name: 'info',
-      component: () => import('./views/pages/Info.vue')
+      component: () => import('./views/pages/Info.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path:'/aboutus',
       name:'aboutus',
-      component: () => import('./views/pages/AboutUs.vue')
+      component: () => import('./views/pages/AboutUs.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/register',
