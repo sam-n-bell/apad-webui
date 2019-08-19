@@ -4,7 +4,7 @@
           <el-row>
               <el-col :span="36">
                   <h2>The Narrative</h2>
-                  <p>The goal of this project is to enable people to schedule events at venues to engage in social sports. Our project allows users to join events that already exist or create their own events, customize their events, and bring guests.</p>
+                  <p>The goal of this project is to enable people to schedule events at venues to engage in social sports. Our project allows users to join events that already exist or create their own events, and bring guests.</p>
               </el-col>
           </el-row>
           </el-card>

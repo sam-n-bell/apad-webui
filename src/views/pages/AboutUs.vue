@@ -23,7 +23,7 @@
                       <div>Sasha is a current student in the MSITM program at UT Austin. She was born and raised in Houston, Texas and received her undergraduate degree in Cybersecurity at UTSA and worked as a Supplemental Instructor in statistics. Her interests include connecting the bridge between Data Science and Cybersecurity and baking sweets, playing video games, catching up on the latest movies, and traveling in whatever free time she has. </div>
                              </el-col>
                              <el-col :span="8">
-                      <div><img alt="Sasha" src="../../assets/IMG_5073.jpg"></div>
+                      <div><img alt="Sasha" src="../../assets/sashabio.png"></div>
                              </el-col>
                          </el-row>
                      </el-collapse-item>
